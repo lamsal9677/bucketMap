@@ -1,0 +1,98 @@
+/* Reset and Global Styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  font-family: 'Mochiy Pop P one', sans-serif;
+}
+
+#container {
+  display: flex;
+  height: 100vh;  /* take full viewport height */
+}
+
+/* Sidebar Styles */
+.sidebar {
+  z-index: 1000;
+  width: 320px;
+  height: 100%;
+  background-color: #363636;
+  padding: 20px;
+  flex: 0 0 320px;  /* This ensures the sidebar takes a width of 320px and doesn't grow or shrink */
+}
+
+.sidebar__logo {
+  display: grid;
+  place-items: center;
+  height: 120px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  margin-bottom: 0.5rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+.input-group input {
+  margin-bottom: 10px;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.input-group input:focus {
+  outline: none;
+  border: 2px solid #308efe;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+#submit {
+  cursor: pointer;
+  background-color: #555555;
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+#submit:hover {
+  background-color: #308efe;
+}
+
+#submit:active {
+  transform: scale(0.98);
+}
+
+.directions-panel {
+  margin-top: 1rem;
+}
+
+.directions-panel strong {
+  color: #fff;
+}
+
+#map {
+  flex-grow: 1;  /* allows map to take remaining space */
+  height: 100%;
+  background-color: #e5e5e5;  /* temp background to indicate where map is */
+}

@@ -1,0 +1,139 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 320px;
+    background-color: #363636;
+
+    &__logo {
+        display: grid;
+        place-items: center;
+        height: 120px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        font-family: 'Mochiy Pop P one', sans-serif;
+        color: #fff;
+    }
+
+    &__menu {
+        position: relative;
+
+        &__item {
+            display: flex;
+            align-items: center;
+            place-content: flex-start;
+            padding: 1rem 3rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #555555;
+            transition: color 0.3s ease-in-out;
+
+            &.active {
+                color: #fff;
+            }
+
+            &__icon {
+                margin-right: 1rem;
+
+                i {
+                    font-size: 1.75rem;
+                }
+            }
+        }
+
+        &__indicator {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: calc(100% - 40px);
+            border-radius: 10px;
+            // background-color: #308efe;
+            z-index: -1;
+            transform: translateX(-50%);
+            transition: 0.3s ease-in-out;
+        }
+    }
+}
+/* General Styles */
+.WhiteHeaders {
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    padding-left: 3rem; /* Align with the other items */
+}
+
+.Mainc {
+    font-size: 1.1rem;
+    color: #aaa;
+    margin-bottom: 0.5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 3rem; /* To align with other items */
+    margin-bottom: 1.5rem;
+
+    label {
+        margin-bottom: 0.5rem;
+    }
+
+    input {
+        padding: 0.5rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: #2a2a2a;
+        color: #fff;
+        &:focus {
+            outline: none;
+            border: 2px solid #308efe;
+        }
+    }
+
+    /* Style for time input */
+    input[type="time"] {
+        cursor: pointer;
+    }
+}
+
+/* Specific Section Styling */
+.route-section,
+.time-section {
+    padding: 2rem 0;
+
+    &:first-child {
+        padding-top: 1rem;
+    }
+}
+
+/* Wrap the button in a container for alignment purposes */
+.button-container {
+    display: flex;
+    justify-content: center; /* center-align the button horizontally */
+    padding: 0.5rem 3rem; /* Padding to match other items in the sidebar */
+}
+
+#submit {
+    cursor: pointer;
+    background-color: #555555; /* Adjusted to a more muted color to match theme */
+    color: #ffffff; /* White text */
+    font-size: 1rem; /* Reduced font size */
+    padding: 8px 20px; /* Reduced padding to make the button smaller */
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+
+    /* Hover State */
+    &:hover {
+        background-color: #308efe; /* Vibrant blue color on hover */
+    }
+
+    /* Active State (when button is clicked) */
+    &:active {
+        transform: scale(0.98);
+    }
+}

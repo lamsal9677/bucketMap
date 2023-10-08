@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Waypoints in Directions</title>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script type="module" src="./index.ts"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div class="sidebar">
+            <div class="sidebar__logo">
+                bucketMap
+            </div>
+
+            <div class="input-group">
+                <label for="start">Start:</label>
+                <input type="text" id="start" placeholder="Enter start location">
+
+                <label for="end">End:</label>
+                <input type="text" id="end" placeholder="Enter end location">
+
+                <label for="time">Time (minutes):</label>
+                <input type="number" id="time" placeholder="Enter time in minutes">
+
+                <label for="prefrence">Enter Prefrence:</label>
+                <input type="text" id="prefrence" placeholder="Hiking, Biking, Museum...">
+            </div>
+
+            <div class="button-container">
+                <input type="submit" id="submit" value="Find Shortest Path">
+            </div>
+
+            <div class="directions-panel">
+                <strong>Total Time:</strong> <span id="total-time"></span><br>
+                <strong>Maximum Destinations:</strong> <span id="max-destinations"></span>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC35m8SWdQvrnw18zU7BB8bbUYgfo0mJjA&callback=initMap&v=weekly" defer></script>
+</body>
+
+</html>
