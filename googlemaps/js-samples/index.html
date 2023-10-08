@@ -2,9 +2,11 @@
 <html>
 
 <head>
-    <title>Waypoints in Directions</title>
+    <title>bucketMap</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <script type="module" src="./index.ts"></script>
+    <!--Favicon-->
+    <link rel="icon" href="./logo.jpeg" type="image/x-icon" />
 </head>
 
 <body>
@@ -15,6 +17,9 @@
             </div>
 
             <div class="input-group">
+                <!--Insert image as logo-->
+                <img src="./logo.jpeg" id="logo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto;">
+
                 <label for="start">Start:</label>
                 <input type="text" id="start" placeholder="Enter start location">
 
@@ -29,12 +34,7 @@
             </div>
 
             <div class="button-container">
-                <input type="submit" id="submit" value="Find Shortest Path">
-            </div>
-
-            <div class="directions-panel">
-                <strong>Total Time:</strong> <span id="total-time"></span><br>
-                <strong>Maximum Destinations:</strong> <span id="max-destinations"></span>
+                <input type="submit" id="submit" value="Cross your Buckets">
             </div>
         </div>
         <div id="map"></div>

@@ -1,6 +1,6 @@
 const ASSUMED_TIME_PER_LOCATION_MINUTES = 30;
 
-function calculateAndDisplayRoute(
+async function calculateAndDisplayRoute(
   directionsService: google.maps.DirectionsService,
   directionsRenderer: google.maps.DirectionsRenderer,
   start: string,
@@ -9,12 +9,15 @@ function calculateAndDisplayRoute(
   timeInMinutes: number
 ) {
   const waypointCount = waypoints.length;
+  console.log(waypointCount)
+
 
   if (waypointCount < 2) {
     window.alert("Please enter at least two waypoints.");
     return;
   }
 
+  console.log("request before google")
   const request: google.maps.DirectionsRequest = {
     origin: start,
     destination: end,
@@ -22,8 +25,9 @@ function calculateAndDisplayRoute(
     optimizeWaypoints: true,
     travelMode: google.maps.TravelMode.DRIVING,
   };
+  console.log("request after google")
 
-  directionsService.route(request, (response, status) => {
+  await directionsService.route(request, (response, status) => {
     if (status === "OK") {
       const route = response.routes[0];
       const legDurations = calculateLegDurations(route, waypoints.length);
@@ -44,7 +48,9 @@ function calculateAndDisplayRoute(
 
       displayRoute(directionsRenderer, [start, ...waypointsToShow, end]);
     } else {
-      window.alert("Directions request failed due to " + status);
+      console.error("Directions request failed:", status);
+    console.error("Error response:", response);
+    window.alert("Directions request failed due to " + status);
     }
   });
 }
@@ -106,18 +112,300 @@ function displayRoute(directionsRenderer: google.maps.DirectionsRenderer, waypoi
   });
 }
 
-function initMap(): void {
+async function initMap(): Promise<void> {
   const directionsService = new google.maps.DirectionsService();
-  const directionsRenderer = new google.maps.DirectionsRenderer();
+  // const directionsRenderer = new google.maps.DirectionsRenderer();
+
+  const customMarkerIcon = {
+    url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', // Replace with your custom icon URL
+    scaledSize: new google.maps.Size(24, 24), // Adjust the size as needed
+  };
+
+  const directionsRenderer = new google.maps.DirectionsRenderer({
+    markerOptions: {
+      icon: customMarkerIcon,
+    },
+    polylineOptions: {
+      strokeColor: '#d8ecf0'  // Change this to any color you desire
+    }
+  });
+
+  const customMapStyle = [{
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#242f3e"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#3fa0b5"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#000002"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.locality",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#3fa0b5"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#3fa0b5"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#1f1d1d"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.attraction",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "weight": 0.5
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#263c3f"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#6b9a76"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#38414e"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#212a37"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9ca5b3"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#3fa0b5"
+      },
+      {
+        "lightness": -50
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#1f2835"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "color": "#3fa0b5"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#3fa0b5"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#080a0e"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#2f3948"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#3fa0b5"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#17263c"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#515c6d"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#17263c"
+      }
+    ]
+  }];
+
   const map = new google.maps.Map(
     document.getElementById("map") as HTMLElement,
     {
       zoom: 6,
       center: { lat: 41.85, lng: -87.65 },
+      styles: customMapStyle,  // Apply the custom style to the map
+      zoomControl: false,
+      mapTypeControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: false
     }
   );
 
-  directionsRenderer.setMap(map);
+  await directionsRenderer.setMap(map);
 
   (document.getElementById("submit") as HTMLElement).addEventListener(
     "click",
@@ -128,8 +416,17 @@ function initMap(): void {
       const prefrence = (document.getElementById("prefrence") as HTMLInputElement).value;
       
       // const locationsInput = "Boston Tea Party Ships & Museum, Boston; USS Constitution Museum, Boston; Massachusetts State House, Boston; MIT Museum, Cambridge; The Esplanade, Boston; Charles River, Boston; Boston Public Library, Boston; John F. Kennedy Presidential Library and Museum, Boston";
-      const GPTPrompt = `List ${noLocation} ${prefrence} locations between ${start} and ${end}, separated by semicolons (not in bullets). For example: Harvard University, Cambridge; Freedom Trail, Boston; ...`;
+      const GPTPrompt = `List ${noLocation} ${prefrence} locations between ${start} and ${end}, separated by semicolons (not in bullets) and no other message. For example: Massachusetts Hall, Harvard Yard, Cambridge, MA 02138; Harvard Lampoon Building, 44 Bow St, Cambridge, MA 02138; ...`;
+      
+      
+      // const GPTPrompt = `JUST JSON called locations and no other message. List ${noLocation} ${prefrence} locations between ${start} and ${end}. Need exact location. Example: 3025 S Glass Bowl Dr, Toledo, OH 43606; 2515 W Bancroft St, Ottawa, OH 45458`
+      
+      //const GPTPrompt = `JUST an array please and no other message. List ${noLocation} ${prefrence} locations between ${start} and ${end}. Need exact location. Example: ["3025 S Glass Bowl Dr, Toledo, OH 43606", "2515 W Bancroft St, Ottawa, OH 45458"]`
+
+
+
       console.log(GPTPrompt);
+      console.log("Before Callllll");
 
         // Calling the server-side endpoint
         const response = await fetch('http://localhost:3000/ask-openai', {
@@ -140,9 +437,25 @@ function initMap(): void {
         body: JSON.stringify({ prompt: GPTPrompt })
         });
         const result = await response.json();
+       
         console.log(result.text);  // Note the ".text" to access the returned data
 
+        //let parsedData = JSON.parse(result);
+        //let waypointsArray = parsedData.addresses;
+        
+
+        // const waypointsArray = JSON.parse(result);
+
+        //let matches = result.text.match(/\d{1,5} .+?(?= \d{1,2}\.)/g);
+        //let waypointsArray = matches ? Array.from(matches) : [];
+
+        //console.log(waypointsArray);
+
+        // const waypointsArray = ["aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj"]
+
         const locationsInput = result.text;
+        
+        //const locationsInput = result.locations;
       
       const waypointsArray = locationsInput.split(';').map(waypoint => waypoint.trim());
       const timeInput = document.getElementById("time") as HTMLInputElement;
@@ -154,7 +467,7 @@ function initMap(): void {
       }
       const allWaypoints = [start, ...waypointsArray, end];
       console.log(allWaypoints)
-      calculateAndDisplayRoute(directionsService, directionsRenderer, start, end, allWaypoints, timeInMinutes);
+      await calculateAndDisplayRoute(directionsService, directionsRenderer, start, end, allWaypoints, timeInMinutes);
     }
   );
 }
